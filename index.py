@@ -49,7 +49,6 @@ class LP(int):
         # Aufteilen des Strings in Rang und LP
         try:
             rank, tier, lp_str, lp = rank_lp_str.split(' ', 3)
-            print(rank, tier, lp_str, lp)
             lp = int(lp_str)
             if f"{rank} {tier}" in ranks_en:
                 rank_index = ranks_en.index(f"{rank} {tier}" )
@@ -207,7 +206,6 @@ async def check_lp():
     for summoner_name, data in summoners.items():
         encrypted_summoner_id = data['encrypted_summoner_id']
         rank_data = get_rank_data(encrypted_summoner_id)
-        print(rank_data)
         if rank_data:
             current_lp = rank_data['leaguePoints']
             tier = rank_data['tier']
@@ -233,8 +231,6 @@ async def check_lp():
 
                 # Prepare the LP gain message
                 lp_gain = 0
-                #print(f"{previous_tier} {previous_rank} {last_lp} LP")
-                #print(f"{tier} {rank} {current_lp} LP")
 
                 lp_from_rank = LP.from_rank(f"{tier} {rank} {current_lp} LP")
                 lp_from_past_rank = LP.from_rank(f"{previous_tier} {previous_rank} {last_lp} LP")
@@ -245,9 +241,9 @@ async def check_lp():
             else:
                 lp_message = f"Lost {lp_gain} LP Today."
             if previous_rank is not rank or previous_tier is not tier:
-                lp_message += f"Rank changed from {previous_tier} {previous_rank} to {tier} {rank}"
+                lp_message += f"\nRank changed from {previous_tier} {previous_rank} to {tier} {rank}"
             # Add the current LP message
-            lp_message += f' Current LP: {current_lp}.'
+            lp_message += f'\nCurrent LP: {current_lp}.'
 
             # Send the message to the Discord channel
             embed = discord.Embed(
