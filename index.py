@@ -269,6 +269,13 @@ async def check_lp():
 
     save_summoners(summoners)
 
+@bot.tree.command(name="get_update", description="Get an LP update.")
+async def get_update(interaction: discord.Interaction):
+    channel = interaction.channel  # Get the channel where the command is invoked
+    await check_lp()  # Save the channel ID to a file
+    print(f"Update requested {channel.id}.")  # Debug print
+    await interaction.response.send_message(f"Update in {channel.name} was requested.")
+
 
 # Schedule task to check at the start of the day
 @tasks.loop(hours=24)
